@@ -1,0 +1,24 @@
+{
+  "name": "padpiper-interview-challenge",
+  "version": "1.0.0",
+  "description": "PadPiper interview challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start" : "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "express": "^4.17.0",
+    "socket.io": "^1.7.4"
+  }
+}
