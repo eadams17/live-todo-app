@@ -6,12 +6,11 @@ This is our challenge for potential new team members. The code is for a simple r
 When you're finished, you should have a real-time TODO app that two or more people could use to share TODO's with one another. Imagine a TODO list our team could use for office tasks, for example.
 
 ## Notes
-- When a TODO is made, completed or deleted, it should show up the same way on all clients. To test this, we recommend having two browser windows open (one incognito and one not)
-- We're evaluating you on the quality and completion of the quest list below. Do you commit often? ? Did you write team friendly code? Is the UI that
-you've built easy to use and easy on the eyes? :eyes:
-- The challenge should take 3-6 hours
-- It should be fun! If you're stuck on a bug or something needs clarification you can <zach@padpiper.com> for help
-- If you prefer a functional style (or some other style of programming) feel free to switch things up to suit how you write best. The codebase is intentionally small to support different styles/complete rewrites. Don't let how we've set things up get in the way of showing us your best work
+- When a TODO is made, completed or deleted, it should show up the same way on all clients. To test this, we recommend having two browser windows open (one incognito and one not).
+- We're evaluating you on the quality and completion of Your Quest list below. Do you commit often? Did you write team friendly code? Is the UI that you've built easy to use and easy on the eyes? :eyes:
+- The challenge should take 3-6 hours.
+- If you prefer a functional style (or some other style of programming) feel free to switch things up to suit how you write best. The codebase is intentionally small to support different styles/complete rewrites. Don't let how we've set things up get in the way of showing us your best work.
+- It should be fun! If you're stuck on a bug or something needs clarification you can <zach@padpiper.com> for help.
 
 ##  Your Quest
 - [ ] Fork this repo
