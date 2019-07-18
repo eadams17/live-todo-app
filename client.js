@@ -9,7 +9,7 @@ function add() {
 
   // Emit the new todo as some data to the server
   server.emit('make', {
-    title : input.value
+    title: input.value
   });
 
   // Clear the input
@@ -18,7 +18,6 @@ function add() {
 }
 
 function render(todo) {
-  console.log(todo);
   const listItem = document.createElement('li');
   const listItemText = document.createTextNode(todo.title);
   listItem.appendChild(listItemText);
@@ -26,7 +25,13 @@ function render(todo) {
 }
 
 // NOTE: These are listeners for events from the server
+
 // This event is for (re)loading the entire list of todos from the server
-server.on('load', (todos) => {
-  todos.forEach((todo) => render(todo));
+server.on('load', todos => {
+  todos.forEach(todo => render(todo));
+});
+
+// This event is for adding the newly created todo to the list
+server.on('addTodo', todo => {
+  render(todo);
 });

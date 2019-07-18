@@ -1,39 +1,64 @@
-const server = require('socket.io')();
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-server.on('connection', (client) => {
-  // This is going to be our fake 'database' for this application
-  // Parse all default Todo's from db
+// This is going to be our fake 'database' for this application
+// Parse all default Todo's from database
+const database = firstTodos.map(todo => {
+  // Form new Todo objects
+  return new Todo((title = todo.title));
+});
 
-  // FIXME: DB is reloading on client refresh. It should be persistent on new client
-  // connections from the last time the server was run...
-  const DB = firstTodos.map((t) => {
-    // Form new Todo objects
-    return new Todo(title=t.title);
+// serve static files
+app.use(express.static('./'));
+
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/index.html', error => {
+    if (error) {
+      next(error);
+    }
   });
+});
+
+io.on('connection', client => {
+  console.log(`New connection at ID: ${client.id}`);
 
   // Sends a message to the client to reload all todos
   const reloadTodos = () => {
-    server.emit('load', DB);
-  }
+    client.emit('load', database);
+  };
+
+  // sends a message to all connections to add the new todo
+  const addTodo = todo => {
+    io.sockets.emit('addTodo', todo);
+  };
 
   // Accepts when a client makes a new todo
-  client.on('make', (t) => {
+  client.on('make', todo => {
     // Make a new todo
-    const newTodo = new Todo(title=t.title);
+    const newTodo = new Todo((title = todo.title));
 
-    // Push this newly created todo to our database
-    DB.push(newTodo);
+    // Add new todo to our database
+    database.push(newTodo);
 
-    // Send the latest todos to the client
-    // FIXME: This sends all todos every time, could this be more efficient?
-    reloadTodos();
+    // Send new todo to the client
+    addTodo(newTodo);
   });
 
-  // Send the DB downstream on connect
+  // Send the database downstream on connect
   reloadTodos();
 });
 
+// establish connection
+
 console.log('Waiting for clients to connect');
-server.listen(3003);
+
+server.listen(3003, error => {
+  if (error) {
+    console.log(error);
+  }
+  console.log('listening on port 3003');
+});
