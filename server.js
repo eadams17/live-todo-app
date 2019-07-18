@@ -12,17 +12,6 @@ const database = firstTodos.map(todo => {
   return new Todo((title = todo.title));
 });
 
-// serve static files
-app.use(express.static('./'));
-
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html', error => {
-    if (error) {
-      next(error);
-    }
-  });
-});
-
 io.on('connection', client => {
   console.log(`New connection at ID: ${client.id}`);
 
@@ -31,7 +20,7 @@ io.on('connection', client => {
     client.emit('load', database);
   };
 
-  // sends a message to all connections to add the new todo
+  // Sends a message to all connections to add the new todo
   const addTodo = todo => {
     io.sockets.emit('addTodo', todo);
   };
@@ -52,7 +41,7 @@ io.on('connection', client => {
   reloadTodos();
 });
 
-// establish connection
+// Establish connection
 
 console.log('Waiting for clients to connect');
 
