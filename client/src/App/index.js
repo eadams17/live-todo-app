@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import socketIOClient from 'socket.io-client';
-const socket = socketIOClient('http://localhost:3003/');
+import TodoList from '../TodoList';
+import NewTodoForm from '../NewTodoForm';
+import socket from '../socket.js';
 
 class App extends Component {
-  state = { todos: [], newTodo: '' };
+  state = { todos: [] };
 
   componentDidMount() {
-    // This event is for loading the entire list of todos from the server
+    // This event if for loading the initial list of todos
     socket.on('load', todos => {
       this.setState({ todos: todos });
     });
@@ -16,54 +17,23 @@ class App extends Component {
         todos: [...this.state.todos, todo]
       });
     });
-  }
-
-  componentDidUpdate() {
-    this.inputField.focus();
-  }
-
-  handleKeyPress(e) {
-    if (e.key === 'Enter') {
-      this.handleSubmit(e);
-    }
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    const { newTodo } = this.state;
-    if (newTodo) {
-      // Send request to the server to make a new Todo
-      socket.emit('make', {
-        title: newTodo
+    // This event is for updating the completion status of a todo
+    socket.on('updateTodo', newTodo => {
+      let todoList = this.state.todos;
+      const index = todoList.findIndex(todo => todo.id === newTodo.id);
+      todoList[index] = newTodo;
+      this.setState({
+        todos: todoList
       });
-      this.setState({ newTodo: '' });
-    }
+    });
   }
 
   render() {
-    const { todos, newTodo } = this.state;
+    const { todos } = this.state;
     return (
       <div className="container">
-        {todos &&
-          todos.map((todo, i) => {
-            return <div key={i}>{todo.title}</div>;
-          })}
-        <form
-          onSubmit={e => this.handleSubmit(e)}
-          onKeyPress={e => this.handleKeyPress(e)}
-          className="form"
-        >
-          <input
-            className="input"
-            type="text"
-            onChange={e => this.setState({ newTodo: e.target.value })}
-            value={newTodo}
-            ref={inputField => (this.inputField = inputField)}
-          />
-          <button type="submit" className="button">
-            Add
-          </button>
-        </form>
+        <TodoList todos={todos} />
+        <NewTodoForm />
       </div>
     );
   }

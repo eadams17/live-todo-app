@@ -2,15 +2,9 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const firstTodos = require('./data');
-const Todo = require('./todo');
 
 // This is going to be our fake 'database' for this application
-// Parse all default Todo's from database
-const database = firstTodos.map(todo => {
-  // Form new Todo objects
-  return new Todo((title = todo.title));
-});
+const database = require('./data');
 
 io.on('connection', client => {
   console.log(`New connection at ID: ${client.id}`);
@@ -25,16 +19,35 @@ io.on('connection', client => {
     io.sockets.emit('addTodo', todo);
   };
 
+  // Sends a message to all connections to update todo
+  const updateTodo = todo => {
+    io.sockets.emit('updateTodo', todo);
+  };
+
   // Accepts when a client makes a new todo
   client.on('make', todo => {
     // Make a new todo
-    const newTodo = new Todo((title = todo.title));
+    const newTodo = {
+      id: database.length + 1,
+      title: todo.title,
+      completed: false
+    };
 
     // Add new todo to our database
     database.push(newTodo);
 
     // Send new todo to the client
     addTodo(newTodo);
+  });
+
+  // Accepts when a client updates completion status of a todo
+  client.on('update', todo => {
+    const index = database.findIndex(object => object.id === todo.id);
+    const updatedTodo = database[index];
+    updatedTodo.completed = !updatedTodo.completed;
+
+    // Send updated todo to the client
+    updateTodo(updatedTodo);
   });
 
   // Send the database downstream on connect
