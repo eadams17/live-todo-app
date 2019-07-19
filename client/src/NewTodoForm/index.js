@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import socket from '../socket.js';
+import styles from './style.module.css';
 
 class NewTodoForm extends Component {
   state = { newTodo: '' };
@@ -32,23 +33,28 @@ class NewTodoForm extends Component {
 
   render() {
     const { newTodo } = this.state;
+    const { error } = this.props;
     return (
-      <div className="container">
+      <div className={styles.container}>
         <form
           onSubmit={e => this.handleSubmit(e)}
           onKeyPress={e => this.handleKeyPress(e)}
-          className="form"
+          className={styles.form}
         >
-          <input
-            className="input"
-            type="text"
-            onChange={e => this.setState({ newTodo: e.target.value })}
-            value={newTodo}
-            ref={inputField => (this.inputField = inputField)}
-          />
-          <button type="submit" className="button">
-            Add
-          </button>
+          <div className={styles.submitContainer}>
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="i.e. bring back disco"
+              onChange={e => this.setState({ newTodo: e.target.value })}
+              value={newTodo}
+              ref={inputField => (this.inputField = inputField)}
+            />
+            <button type="submit" className={styles.button}>
+              Add
+            </button>
+          </div>
+          {error && <div className={styles.error}>{error}</div>}
         </form>
       </div>
     );

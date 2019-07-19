@@ -1,16 +1,16 @@
 [
   {
-    "id": 1,
+    "uuid": null,
     "title": "Order more coffee",
     "completed": false
   },
   {
-    "id": 2,
+    "uuid": null,
     "title": "Clean the coffee machine",
     "completed": false
   },
   {
-    "id": 3,
+    "uuid": null,
     "title": "Sweep the floor",
     "completed": false
   }
