@@ -4,8 +4,13 @@
   "description": "PadPiper interview challenge",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
-    "start": "nodemon --exec node server.js"
+    "client-test": "cd client && yarn test",
+    "server-test": "mocha serverTest.js",
+    "test": "yarn server-test && yarn client-test",
+    "setup": "(cd client && yarn install) && yarn install",
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js",
+    "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "repository": {
     "type": "git",
@@ -23,6 +28,8 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "concurrently": "^4.1.1",
+    "mocha": "^6.2.0",
     "nodemon": "^1.19.1"
   }
 }

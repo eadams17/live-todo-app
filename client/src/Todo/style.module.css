@@ -1,15 +1,12 @@
-.container {
-  border: 1px solid black;
-  height: 300px;
-  max-height: 300px;
-  overflow: scroll;
-}
-
 .todoContainer {
   display: flex;
   justify-content: space-between;
   width: 400px;
   margin: 20px;
+}
+
+.checkBox {
+  cursor: pointer;
 }
 
 .button {
