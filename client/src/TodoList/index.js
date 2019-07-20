@@ -3,23 +3,49 @@ import socket from '../socket';
 import styles from './style.module.css';
 
 class TodoList extends Component {
-  handleUpdate(e, todo) {
+  updateTodo(e, todo) {
     e.preventDefault();
     // Send request to the server to update completion status of todo
     socket.emit('update', todo);
   }
 
-  handleDelete(e, todo) {
+  updateAllTodos(e) {
+    e.preventDefault();
+    // Send request to the server to delete a todo
+    socket.emit('updateAll');
+  }
+
+  deleteTodo(e, todo) {
     e.preventDefault();
     // Send request to the server to delete a todo
     socket.emit('delete', todo);
+  }
+
+  deleteAllTodos(e) {
+    e.preventDefault();
+    // Send request to the server to delete a todo
+    socket.emit('deleteAll');
   }
 
   render() {
     const { todos } = this.props;
     return (
       <div className={styles.container}>
-        {todos &&
+        <div className={styles.buttonContainer}>
+          <button
+            className={styles.button}
+            onClick={e => this.updateAllTodos(e)}
+          >
+            Toggle All
+          </button>
+          <button
+            className={styles.button}
+            onClick={e => this.deleteAllTodos(e)}
+          >
+            Delete All
+          </button>
+        </div>
+        {todos.length !== 0 &&
           todos.map((todo, i) => {
             const completed = todo.completed;
             return (
@@ -27,7 +53,7 @@ class TodoList extends Component {
                 <input
                   className={styles.checkBox}
                   type="checkbox"
-                  onChange={e => this.handleUpdate(e, todo)}
+                  onChange={e => this.updateTodo(e, todo)}
                   checked={completed}
                 />
                 <div
@@ -38,7 +64,7 @@ class TodoList extends Component {
                 </div>
                 <button
                   className={styles.button}
-                  onClick={e => this.handleDelete(e, todo)}
+                  onClick={e => this.deleteTodo(e, todo)}
                 >
                   X
                 </button>

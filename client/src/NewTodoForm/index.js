@@ -18,13 +18,11 @@ class NewTodoForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { newTodo } = this.state;
-    if (newTodo) {
-      // Send request to the server to make a new Todo
-      socket.emit('make', {
-        title: newTodo
-      });
-      this.setState({ newTodo: '' });
-    }
+    // Send request to the server to make a new Todo
+    socket.emit('make', {
+      title: newTodo
+    });
+    this.setState({ newTodo: '' });
   };
 
   updateNewTodo = value => {

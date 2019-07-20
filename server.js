@@ -6,18 +6,20 @@ const uuidv4 = require('uuid/v4');
 const firstTodos = require('./data');
 
 // This is going to be our fake 'database' for this application
-const database = firstTodos.map(todo => {
+let database = firstTodos.map(todo => {
   // Generate UUIDs for seed todos
   todo.uuid = uuidv4();
   return todo;
 });
+// Keep track if all todos have been toggled to complete
+let allCompleted = false;
 
 io.on('connection', client => {
   console.log(`New connection at ID: ${client.id}`);
 
   // Sends a message to the client to reload all todos
   const reloadTodos = () => {
-    client.emit('load', database);
+    io.sockets.emit('load', database);
   };
 
   // Sends a message to all connections to add the new todo
@@ -35,14 +37,20 @@ io.on('connection', client => {
     io.sockets.emit('deleteTodo', todoIndex);
   };
 
-  // Sends a message to the client that todo already exists
+  // Sends an error message to the client
   const sendError = error => {
     client.emit('receiveError', error);
   };
 
   // Accepts when a client makes a new todo
   client.on('make', todo => {
-    // Check if todo already exists (case insensitive)
+    // Send error if todo title is empty
+    if (!todo.title) {
+      sendError('Form cannot be empty!');
+      return;
+    }
+
+    // Send error if todo already exists (case insensitive)
     const todoExists = database.find(
       object => object.title.toLowerCase() === todo.title.toLowerCase()
     );
@@ -60,13 +68,12 @@ io.on('connection', client => {
 
     // Add new todo to our database
     database.push(newTodo);
-    console.log(database);
 
     // Send new todo to the client
     addTodo(newTodo);
   });
 
-  // Accepts when a client updates completion status of a todo
+  // Accepts when a client toggles completion status of a todo
   client.on('update', todo => {
     const index = database.findIndex(object => object.uuid === todo.uuid);
     const updatedTodo = database[index];
@@ -76,14 +83,28 @@ io.on('connection', client => {
     updateTodo(updatedTodo);
   });
 
+  // Accepts when a client toggles completion status of all todos
+  client.on('updateAll', () => {
+    database.forEach(todo => {
+      todo.completed = allCompleted ? false : true;
+    });
+    allCompleted = !allCompleted;
+    reloadTodos();
+  });
+
   // Accepts when a client deletes a todo
   client.on('delete', todo => {
     const todoIndex = database.findIndex(object => object.uuid === todo.uuid);
     database.splice(todoIndex, 1);
-    console.log('database', database);
 
-    // Send updated todo to the client
+    // Send index of deleted todo to the client
     deleteTodo(todoIndex);
+  });
+
+  // Accepts when a client deletes all todos
+  client.on('deleteAll', () => {
+    database = [];
+    reloadTodos();
   });
 
   // Send the database downstream on connect
