@@ -4,4 +4,6 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-image: url(https://res.cloudinary.com/explorewanderlust/image/upload/o_75/v1563741513/IMG_1223_l0dqtl.jpg);
+  background-size: cover;
 }

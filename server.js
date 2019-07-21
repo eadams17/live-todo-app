@@ -11,8 +11,6 @@ let database = firstTodos.map(todo => {
   todo.uuid = uuidv4();
   return todo;
 });
-// Keep track if all todos have been toggled to complete
-let allCompleted = false;
 
 io.on('connection', client => {
   console.log(`New connection at ID: ${client.id}`);
@@ -85,10 +83,11 @@ io.on('connection', client => {
 
   // Accepts when a client toggles completion status of all todos
   client.on('updateAll', () => {
+    const allComplete =
+      database.filter(todo => todo.completed).length === database.length;
     database.forEach(todo => {
-      todo.completed = allCompleted ? false : true;
+      todo.completed = allComplete ? false : true;
     });
-    allCompleted = !allCompleted;
     reloadTodos();
   });
 

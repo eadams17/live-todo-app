@@ -1,35 +1,31 @@
-import React from "react";
-import { mount } from "enzyme";
-import NewTodo from "./index.js";
+import React from 'react';
+import { mount } from 'enzyme';
+import NewTodo from './index.js';
 
 const mockProps = {
-  error: ""
+  error: ''
 };
 const component = mount(<NewTodo {...mockProps} />);
 const e = { preventDefault: jest.fn() };
 
-describe("NewTodo", () => {
-  it("typing in input updates newTodo piece of state", () => {
-    const e = { target: { value: "bacana" } };
+describe('NewTodo', () => {
+  it('typing in input updates newTodo piece of state', () => {
+    const e = { target: { value: 'Order more coffee' } };
     component
-      .find("input")
+      .find('input')
       .first()
       .props()
       .onChange(e);
-    expect(component.state().newTodo).toEqual("bacana");
+    expect(component.state().newTodo).toEqual('Order more coffee');
   });
-  it("clicking button calls handleSubmit", () => {
-    const spyHandleSubmit = jest.spyOn(component.instance(), "handleSubmit");
+  it('clicking button or hitting Enter calls handleSubmit', () => {
+    const spyHandleSubmit = jest.spyOn(component.instance(), 'handleSubmit');
     component
-      .find("button")
-      .first()
+      .find('i')
       .props()
       .onClick(e);
     expect(spyHandleSubmit).toHaveBeenCalled();
-  });
-  it("pressing Enter key calls handleSubmit", () => {
-    const spyHandleSubmit = jest.spyOn(component.instance(), "handleSubmit");
-    component.find("form").simulate("keypress", { key: "Enter" });
+    component.find('form').simulate('keypress', { key: 'Enter' });
     expect(spyHandleSubmit).toHaveBeenCalled();
   });
 });
