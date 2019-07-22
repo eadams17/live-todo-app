@@ -18,8 +18,7 @@ class Todo extends Component {
 
   render() {
     const { todo } = this.props;
-    const uuid = todo.uuid;
-    const completed = todo.completed;
+    const { uuid, completed } = todo;
     return (
       <div className={styles.container}>
         <div

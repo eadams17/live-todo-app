@@ -21,10 +21,7 @@ export class NewTodo extends Component {
     const { error } = this.props;
     return (
       <div className={styles.container}>
-        <form
-          onKeyPress={e => e.key === 'Enter' && this.handleSubmit(e)}
-          className={styles.form}
-        >
+        <form onKeyPress={e => e.key === 'Enter' && this.handleSubmit(e)}>
           <div className={styles.submitContainer}>
             <div className={styles.subContainer}>
               <input
@@ -35,12 +32,12 @@ export class NewTodo extends Component {
                 value={newTodo}
                 ref={inputField => (this.inputField = inputField)}
               />
-              <i
-                tabIndex="0"
-                id={styles.submitIcon}
-                className="fa fa-check-circle fa-lg"
+              <button
+                className={styles.button}
                 onClick={e => this.handleSubmit(e)}
-              />
+              >
+                Create
+              </button>
             </div>
             <div className={styles.error}>{error}</div>
           </div>

@@ -21,7 +21,7 @@ describe('NewTodo', () => {
   it('clicking button or hitting Enter calls handleSubmit', () => {
     const spyHandleSubmit = jest.spyOn(component.instance(), 'handleSubmit');
     component
-      .find('i')
+      .find('button')
       .props()
       .onClick(e);
     expect(spyHandleSubmit).toHaveBeenCalled();

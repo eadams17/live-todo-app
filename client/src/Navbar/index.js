@@ -48,13 +48,13 @@ export class Navbar extends Component {
         </div>
         <div className={styles.buttonContainer}>
           <button
-            className={styles.button}
+            className={styles.toggleButton}
             onClick={e => this.updateAllTodos(e)}
           >
             Toggle All
           </button>
           <button
-            className={styles.button}
+            className={styles.deleteButton}
             onClick={e => this.deleteAllTodos(e)}
           >
             Delete All
@@ -67,7 +67,7 @@ export class Navbar extends Component {
 
 Navbar.propTypes = {
   connected: PropTypes.bool.isRequired,
-  todos: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  todos: PropTypes.object.isRequired,
   analytics: PropTypes.array.isRequired
 };
 

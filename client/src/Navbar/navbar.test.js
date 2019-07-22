@@ -3,12 +3,22 @@ import { shallow } from 'enzyme';
 import Navbar from './index.js';
 const uuidv4 = require('uuid/v4');
 
+const uuids = [uuidv4(), uuidv4(), uuidv4()];
 const mockProps = {
-  todos: [
-    { uuid: uuidv4(), title: 'test1', completed: false },
-    { uuid: uuidv4(), title: 'test2', completed: false },
-    { uuid: uuidv4(), title: 'test3', completed: false }
-  ],
+  todos: {
+    [uuids[0]]: {
+      title: 'test1',
+      completed: false
+    },
+    [uuids[1]]: {
+      title: 'test2',
+      completed: false
+    },
+    [uuids[2]]: {
+      title: 'test3',
+      completed: false
+    }
+  },
   analytics: [0, 3],
   connected: true
 };

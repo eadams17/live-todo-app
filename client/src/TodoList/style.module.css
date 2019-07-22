@@ -3,15 +3,8 @@
   width: 540px;
   max-height: 300px;
   overflow: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
   font-family: 'Open Sans', sans-serif;
   background-color: white;
-}
-
-.container::-webkit-scrollbar {
-  width: 0;
-  height: 0;
 }
 
 @media screen and (min-width: 1400px) {

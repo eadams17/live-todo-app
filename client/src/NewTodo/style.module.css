@@ -34,36 +34,62 @@
   align-items: center;
 }
 
-#submitIcon {
+.button {
   cursor: pointer;
-  color: #007580;
+  color: white;
+  background-color: #007580;
+  border-radius: 6px;
+  border: none;
+  padding: 4px 5px 4px 5px;
+  font-size: 12px;
 }
 
-#submitIcon:hover {
-  color: #006080;
+.button:hover {
+  background-color: #00464d;
 }
 
 @media screen and (min-width: 1400px) {
+  .button {
+    font-size: 14px;
+  }
   .container {
     width: 600px;
   }
+  .error {
+    font-size: 16px;
+  }
   .input {
     font-size: 18px;
+    width: 325px;
   }
 }
 @media screen and (min-width: 1600px) {
+  .button {
+    font-size: 16px;
+  }
   .container {
     width: 700px;
   }
+  .error {
+    font-size: 18px;
+  }
   .input {
     font-size: 20px;
+    width: 400px;
   }
 }
 @media screen and (min-width: 1900px) {
+  .button {
+    font-size: 18px;
+  }
   .container {
     width: 800px;
   }
+  .error {
+    font-size: 20px;
+  }
   .input {
     font-size: 22px;
+    width: 475px;
   }
 }

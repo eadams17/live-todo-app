@@ -13,20 +13,6 @@
   padding: 5px 0px 5px 0px;
 }
 
-.button {
-  cursor: pointer;
-  background-color: #007580;
-  color: white;
-  border-radius: 6px;
-  border: none;
-  padding: 4px 5px 4px 5px;
-  font-size: 12px;
-}
-
-.button:hover {
-  background-color: #006080;
-}
-
 .buttonContainer {
   display: flex;
   justify-content: space-between;
@@ -34,7 +20,7 @@
 }
 
 .complete {
-  color: green;
+  color: #00804b;
 }
 
 .container {
@@ -55,10 +41,12 @@
   font-size: 20px;
 }
 
-.headerContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.deleteButton {
+  background-color: #800b00;
+}
+
+.deleteButton:hover {
+  background-color: #4d0700;
 }
 
 .header {
@@ -67,8 +55,14 @@
   font-size: 40px;
 }
 
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .incomplete {
-  color: red;
+  color: #b30f00;
 }
 
 .label {
@@ -83,9 +77,27 @@
   color: #d3d3d3;
 }
 
+.toggleButton {
+  background-color: #007580;
+}
+
+.toggleButton:hover {
+  background-color: #00464d;
+}
+
 #x {
   color: #d3d3d3;
   margin-right: 3px;
+}
+
+.deleteButton,
+.toggleButton {
+  cursor: pointer;
+  color: white;
+  border-radius: 6px;
+  border: none;
+  padding: 4px 5px 4px 5px;
+  font-size: 12px;
 }
 
 .complete,
@@ -94,7 +106,6 @@
   font-weight: bold;
   font-size: 20px;
 }
-
 #online,
 #offline {
   margin-bottom: 10px;
@@ -104,7 +115,8 @@
   .container {
     width: 600px;
   }
-  .button {
+  .deleteButton,
+  .toggleButton {
     font-size: 14px;
   }
   .date {
@@ -127,7 +139,8 @@
   .container {
     width: 700px;
   }
-  .button {
+  .deleteButton,
+  .toggleButton {
     font-size: 16px;
   }
   .date {
@@ -151,7 +164,8 @@
   .container {
     width: 800px;
   }
-  .button {
+  .deleteButton,
+  .toggleButton {
     font-size: 18px;
   }
   .date {
