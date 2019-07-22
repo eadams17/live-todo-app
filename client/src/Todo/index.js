@@ -10,14 +10,15 @@ class Todo extends Component {
     socket.emit('update', todo);
   }
 
-  deleteTodo = (e, todo) => {
+  deleteTodo = (e, uuid) => {
     e.preventDefault();
     // Send request to the server to delete a todo
-    socket.emit('delete', todo);
+    socket.emit('delete', uuid);
   };
 
   render() {
     const { todo } = this.props;
+    const uuid = todo.uuid;
     const completed = todo.completed;
     return (
       <div className={styles.container}>
@@ -27,20 +28,20 @@ class Todo extends Component {
           onKeyPress={e => e.key === 'Enter' && this.updateTodo(e, todo)}
           className={styles.checkBox}
         >
-          <div className={completed ? styles.checked : styles.unchecked} />
+          <i
+            id={completed ? styles.checked : styles.unchecked}
+            className="fas fa-check fa-xs"
+          />
         </div>
-        <div
-          className={styles.todoTitle}
-          style={completed ? { textDecoration: 'line-through' } : {}}
-        >
+        <div className={completed ? styles.todoCrossed : styles.todo}>
           {todo.title}
         </div>
         <i
           tabIndex="0"
           id={styles.closeIcon}
           className="fa fa-trash-alt fa-1x"
-          onKeyPress={e => e.key === 'Enter' && this.deleteTodo(e, todo)}
-          onClick={e => this.deleteTodo(e, todo)}
+          onKeyPress={e => e.key === 'Enter' && this.deleteTodo(e, uuid)}
+          onClick={e => this.deleteTodo(e, uuid)}
         />
       </div>
     );

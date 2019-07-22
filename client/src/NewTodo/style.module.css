@@ -1,6 +1,6 @@
 .container {
   margin-top: 20px;
-  width: 400px;
+  width: 500px;
   background-color: white;
   padding: 10px 20px 10px 20px;
   border-bottom-right-radius: 6px;
@@ -9,13 +9,14 @@
 
 .error {
   font-family: 'Open Sans', sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   color: #ff0000;
 }
 
 .input {
   font-family: 'Open Sans', sans-serif;
-  width: 200px;
+  font-size: 16px;
+  width: 250px;
   border-radius: 6px;
   border: 2px solid #007580;
   padding: 5px;
@@ -40,4 +41,29 @@
 
 #submitIcon:hover {
   color: #006080;
+}
+
+@media screen and (min-width: 1400px) {
+  .container {
+    width: 600px;
+  }
+  .input {
+    font-size: 18px;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .container {
+    width: 700px;
+  }
+  .input {
+    font-size: 20px;
+  }
+}
+@media screen and (min-width: 1900px) {
+  .container {
+    width: 800px;
+  }
+  .input {
+    font-size: 22px;
+  }
 }

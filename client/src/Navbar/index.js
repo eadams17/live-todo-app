@@ -7,13 +7,13 @@ import styles from './style.module.css';
 export class Navbar extends Component {
   updateAllTodos(e) {
     e.preventDefault();
-    // Send request to the server to delete a todo
+    // Send request to the server to update all todos
     socket.emit('updateAll');
   }
 
   deleteAllTodos = e => {
     e.preventDefault();
-    // Send request to the server to delete a todo
+    // Send request to the server to delete all todos
     socket.emit('deleteAll');
   };
 
@@ -23,17 +23,18 @@ export class Navbar extends Component {
       <div className={styles.container}>
         <div className={styles.headerContainer}>
           <div className={styles.header}>Task List</div>
-          <div className={styles.statusContainer}>
-            <div className={styles.status}>
-              {connected ? 'online' : 'offline'}
-            </div>
-            <div className={connected ? styles.online : styles.offline} />
+          <div>
+            {!connected && <i id={styles.x} className="fas fa-times" />}
+            <i
+              id={connected ? styles.online : styles.offline}
+              className="fas fa-signal"
+            />
           </div>
         </div>
         <div className={styles.date}>{moment().format('dddd, MMMM Do')}</div>
         <div className={styles.analyticsContainer}>
           <div className={styles.analytic}>
-            <div className={styles.total}>{todos.length}</div>
+            <div className={styles.total}>{Object.keys(todos).length}</div>
             <div className={styles.label}>total</div>
           </div>
           <div className={styles.analytic}>
@@ -66,7 +67,7 @@ export class Navbar extends Component {
 
 Navbar.propTypes = {
   connected: PropTypes.bool.isRequired,
-  todos: PropTypes.array.isRequired,
+  todos: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   analytics: PropTypes.array.isRequired
 };
 

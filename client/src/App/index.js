@@ -6,7 +6,7 @@ import socket from '../socket.js';
 import styles from './style.module.css';
 
 export class App extends Component {
-  state = { todos: [], error: '', connected: false };
+  state = { todos: {}, error: '', connected: false };
 
   componentDidMount() {
     // This event is for loading the initial list of todos
@@ -16,36 +16,28 @@ export class App extends Component {
 
     // This event is for adding the newly created todo to the todo list
     socket.on('addTodo', todo => {
-      this.setState({
-        todos: [...this.state.todos, todo],
-        error: ''
-      });
+      let todos = this.state.todos;
+      todos[todo.uuid] = todo;
+      this.setState({ todos, error: '' });
     });
 
     // This event is for toggling the completion status of a todo
-    socket.on('updateTodo', newTodo => {
-      let todoList = this.state.todos;
-      const index = todoList.findIndex(todo => todo.uuid === newTodo.uuid);
-      todoList[index] = newTodo;
-      this.setState({
-        todos: todoList
-      });
+    socket.on('updateTodo', todo => {
+      let todos = this.state.todos;
+      todos[todo.uuid] = todo;
+      this.setState({ todos });
     });
 
     // This event is for deleting a todo from the todo list
-    socket.on('deleteTodo', todoIndex => {
-      let todoList = this.state.todos;
-      todoList.splice(todoIndex, 1);
-      this.setState({
-        todos: todoList
-      });
+    socket.on('deleteTodo', uuid => {
+      let todos = this.state.todos;
+      delete todos[uuid];
+      this.setState({ todos });
     });
 
     // This event is for receiving an error when client tries to add duplicate todo
     socket.on('receiveError', error => {
-      this.setState({
-        error: error
-      });
+      this.setState({ error });
     });
 
     // This event is for detecting a failed connection and caching todo list
@@ -64,8 +56,8 @@ export class App extends Component {
     // get complete/incomplete count for navbar analytics display
     const { todos } = this.state;
     let analytics = [0, 0];
-    todos.forEach(todo => {
-      if (todo.completed) {
+    Object.keys(todos).forEach(uuid => {
+      if (todos[uuid].completed) {
         analytics[0] += 1;
       } else {
         analytics[1] += 1;
@@ -76,7 +68,6 @@ export class App extends Component {
 
   render() {
     const { todos, error, connected } = this.state;
-    console.log('todos', todos);
     const analytics = todos && this.getAnalytics();
     return (
       <div className={styles.container}>

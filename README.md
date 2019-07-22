@@ -1,40 +1,35 @@
-# Challenge
-Hello :wave:
+# PapPiper Challenge
 
-This is our challenge for potential new team members. The code is for a simple real-time TODO app. The challenge here is to fix some bugs, add some features and make some improvements.
+A small todo app that allows users to add, update and delete todos across teams in real time.
 
-When you're finished, you should have a real-time TODO app that two or more people could use to share TODO's with one another. Imagine a TODO list our team could use for office tasks, for example.
+## Setup
 
-## Notes
-- When a TODO is made, completed or deleted, it should show up the same way on all clients. To test this, we recommend having two browser windows open (one incognito and one not).
-- We're evaluating you on the quality and completion of Your Quest list below. Do you commit often? Did you write team friendly code? Is the UI that you've built easy to use and easy on the eyes? :eyes:
-- The challenge should take 3-6 hours.
-- If you prefer a functional style (or some other style of programming) feel free to switch things up to suit how you write best. The codebase is intentionally small to support different styles/complete rewrites. Don't let how we've set things up get in the way of showing us your best work.
-- It should be fun! If you're stuck on a bug or something needs clarification you can <zach@padpiper.com> for help.
+1. Run `yarn run setup`
+2. Run `yarn start`
 
-##  Your Quest
-- [ ] Clone this repo `git clone git@github.com:PadPiper/padpiper-interview-challenge.git`
-- [ ] Make your own private repo and push your changes to that (you'll need to update the origin on the clone)
-- [ ] Add `zlwaterfield` and `JackForbes` as collaborators on the new repo [settings->collaborators]
-- [ ] Commit often, with high quality comments
-- [ ] Write readable, performant code
-- [ ] Fix all the bugs
-- [ ] Add a feature that allows users to complete tasks
-- [ ] Add a feature that allows users to delete tasks
-- [ ] Add a feature that allows the completion of all tasks
-- [ ] Add a feature that allows the deletion of all tasks
-- [ ] Add caching to the client app so that when we lose our connection we can still see our TODO's
-- [ ] Give it some UX/UI :heart:, our approach is make it easy to use- _then_ make it beautiful
+The app should now be accessible from `http://localhost:3000/`
 
-## Set Up
-This is a Node app so you'll need Node, NPM and yarn to get it up on its feet.
+To run tests, run `yarn test` in a separate terminal.
 
-```sh
-yarn
-yarn start
+## Overview
+
+This application uses **React** on the frontend and **Socket**/**Express** on the backend. The client can emit actions (`add`, `update`, `delete`, `updateAll`, `deleteAll`) to interact with the socket server. The socket server processes these actions and updates the "database", and then sends a response back to the client. The todos are stored in the "database" hash like so:
+
+```
+"8d9f99c1-9873-4db3-9ab5-5c88acd09efd": {
+    "uuid": "8d9f99c1-9873-4db3-9ab5-5c88acd09efd",
+    "title": "Fazer um rolê",
+    "completed": false
+  }
+}
 ```
 
-Now open `index.html` in your browser. Things won't work at first, but once the server is running, you should see your TODO's under the input.
+## Technology
 
-## Done?
-Great job! When you're all finished, send me an email with a link to the repo and I will check it out! 🙌
+I chose to use **React** (specifically bootsrapped with `create-react-app`) for building out the UI. I chose **React** because it's fast, well-documented and I love the component structure. For styling, I decided to use `CSS Modules`. I like that all styles are scoped locally, helping to keep things more organized. As for testing, I used `Enzyme` and `Jest` for the frontend and `Mocha` for the backend. Since the backend was already setup with **Socket**, I connected it with **Express** to build the server. I added several dependencies across the stack for setting up tests and enhancing the dev experience.
+
+## Optimizations & Considerations
+
+Given more time (and if this were to be scaled out), I would have opted to build out the frontend with my own configuration via **Webpack** for more flexibility in function. I would have also liked to have added a photo roulette for the background image to add some variety (--ok... and also to have the chance to show off some more of my photography 😛).
+
+Additionally, I would have added some more styling features. Recently, I've been dabbling with **React-Spring** which offers the ability to build out some pretty cool animations and transitions. I think that I also would have used **Bootstrap** as well in order to make the application totally responsive.

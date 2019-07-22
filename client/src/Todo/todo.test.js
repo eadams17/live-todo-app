@@ -14,30 +14,30 @@ describe('Todo', () => {
     expect(
       component
         .find('div')
-        .at(3)
-        .props().style
-    ).toEqual({});
-    expect(
-      component
-        .find('div')
         .at(2)
         .props().className
+    ).toEqual('todo');
+    expect(
+      component
+        .find('i')
+        .first()
+        .props().id
     ).toEqual('unchecked');
     component.setProps({
       todo: { uuid: uuidv4(), title: 'test1', completed: true }
     });
     expect(
       component
-        .find('div')
-        .at(2)
-        .props().className
+        .find('i')
+        .first()
+        .props().id
     ).toEqual('checked');
     expect(
       component
         .find('div')
-        .at(3)
-        .props().style
-    ).toEqual({ textDecoration: 'line-through' });
+        .at(2)
+        .props().className
+    ).toEqual('todoCrossed');
   });
   it('clicking check box calls updateTodo', () => {
     const spyUpdateTodo = jest.spyOn(component.instance(), 'updateTodo');
@@ -52,6 +52,7 @@ describe('Todo', () => {
     const spyDeleteTodo = jest.spyOn(component.instance(), 'deleteTodo');
     component
       .find('i')
+      .last()
       .props()
       .onClick(e);
     expect(spyDeleteTodo).toHaveBeenCalled();

@@ -1,24 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Todo from '../Todo';
 import PropTypes from 'prop-types';
 import styles from './style.module.css';
 
-export class TodoList extends Component {
-  render() {
-    const { todos } = this.props;
-    return (
-      <div className={styles.container}>
-        {todos.length !== 0 &&
-          todos.map((todo, i) => {
-            return <Todo key={i} todo={todo} />;
-          })}
-      </div>
-    );
-  }
-}
+export const TodoList = ({ todos }) => {
+  return (
+    <div className={styles.container}>
+      {todos.length !== 0 &&
+        Object.keys(todos).map((uuid, i) => {
+          return <Todo key={i} todo={todos[uuid]} />;
+        })}
+    </div>
+  );
+};
 
 TodoList.propTypes = {
-  todos: PropTypes.array.isRequired
+  todos: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired
 };
 
 export default TodoList;

@@ -6,10 +6,12 @@ const uuidv4 = require('uuid/v4');
 const firstTodos = require('./data');
 
 // This is going to be our fake 'database' for this application
-let database = firstTodos.map(todo => {
-  // Generate UUIDs for seed todos
-  todo.uuid = uuidv4();
-  return todo;
+let database = {};
+firstTodos.forEach(todo => {
+  // Store todos in hash by UUIDs
+  const uuid = uuidv4();
+  todo.uuid = uuid;
+  database[uuid] = todo;
 });
 
 io.on('connection', client => {
@@ -49,23 +51,25 @@ io.on('connection', client => {
     }
 
     // Send error if todo already exists (case insensitive)
-    const todoExists = database.find(
-      object => object.title.toLowerCase() === todo.title.toLowerCase()
+    const todoExists = Object.keys(database).find(
+      uuid => database[uuid].title.toLowerCase() === todo.title.toLowerCase()
     );
+
     if (todoExists) {
       sendError('Todo already exists!');
       return;
     }
 
     // Make a new todo
+    const uuid = uuidv4();
     const newTodo = {
-      uuid: uuidv4(),
+      uuid,
       title: todo.title,
       completed: false
     };
 
     // Add new todo to our database
-    database.push(newTodo);
+    database[uuid] = newTodo;
 
     // Send new todo to the client
     addTodo(newTodo);
@@ -73,36 +77,34 @@ io.on('connection', client => {
 
   // Accepts when a client toggles completion status of a todo
   client.on('update', todo => {
-    const index = database.findIndex(object => object.uuid === todo.uuid);
-    const updatedTodo = database[index];
-    updatedTodo.completed = !updatedTodo.completed;
+    let todoEntry = database[todo.uuid];
+    todoEntry.completed = !todoEntry.completed;
 
     // Send updated todo to the client
-    updateTodo(updatedTodo);
+    updateTodo(todoEntry);
   });
 
   // Accepts when a client toggles completion status of all todos
   client.on('updateAll', () => {
+    const todoKeys = Object.keys(database);
     const allComplete =
-      database.filter(todo => todo.completed).length === database.length;
-    database.forEach(todo => {
-      todo.completed = allComplete ? false : true;
+      todoKeys.filter(uuid => database[uuid].completed).length ===
+      todoKeys.length;
+    todoKeys.forEach(uuid => {
+      database[uuid].completed = allComplete ? false : true;
     });
     reloadTodos();
   });
 
   // Accepts when a client deletes a todo
-  client.on('delete', todo => {
-    const todoIndex = database.findIndex(object => object.uuid === todo.uuid);
-    database.splice(todoIndex, 1);
-
-    // Send index of deleted todo to the client
-    deleteTodo(todoIndex);
+  client.on('delete', uuid => {
+    delete database[uuid];
+    deleteTodo(uuid);
   });
 
   // Accepts when a client deletes all todos
   client.on('deleteAll', () => {
-    database = [];
+    database = {};
     reloadTodos();
   });
 
