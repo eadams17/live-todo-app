@@ -1,5 +1,3 @@
-# PapPiper Challenge
-
 A small todo app that allows users to add, update and delete todos across teams in real time.
 
 ## Setup
@@ -26,10 +24,4 @@ This application uses **React** on the frontend and **Socket**/**Express** on th
 
 ## Technology
 
-I chose to use **React** (specifically bootsrapped with `create-react-app`) for building out the UI. I chose **React** because it's fast, well-documented and I love the component structure. For styling, I decided to use `CSS Modules`. I like that all styles are scoped locally, helping to keep things more organized. As for testing, I used `Enzyme` and `Jest` for the frontend and `Mocha` for the backend. Since the backend was already setup with **Socket**, I connected it with **Express** to build the server. I added several dependencies across the stack for setting up tests and enhancing the dev experience.
-
-## Optimizations & Considerations
-
-Given more time (and if this were to be scaled out), I would have opted to build out the frontend with my own configuration via **Webpack** for more flexibility in function. I would have also liked to have added a photo roulette for the background image to add some variety (--ok... and also to have the chance to show off some more of my photography 😛).
-
-Additionally, I would have added some more styling features. Recently, I've been dabbling with **React-Spring** which offers the ability to build out some pretty cool animations and transitions. I think that I also would have used **Bootstrap** as well in order to make the application totally responsive.
+I chose to use **React** (specifically bootsrapped with `create-react-app`) for building out the UI. I chose **React** because it's fast, well-documented and I love the component structure. For styling, I decided to use `CSS Modules`. I like that all styles are scoped locally, helping to keep things more organized. For the backend, I used **Socket** for real-time todo updates across sessions with an **Express** server. As for testing, I used `Enzyme` and `Jest` for the frontend and `Mocha` for the backend.
